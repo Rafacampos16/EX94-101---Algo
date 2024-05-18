@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Despesas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .form-group button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #45a049;
+        }
+        .expense-list {
+            margin-top: 20px;
+        }
+        .expense-list h2 {
+            margin-bottom: 10px;
+        }
+        .expense-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .expense-list ul li {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Registro de Despesas</h1>
+        <div class="form-group">
+            <label for="descricao">Descrição:</label>
+            <input type="text" id="descricao" required>
+        </div>
+        <div class="form-group">
+            <label for="valor">Valor:</label>
+            <input type="number" step="0.01" id="valor" required>
+        </div>
+        <div class="form-group">
+            <label for="categoria">Categoria:</label>
+            <select id="categoria" required>
+                <option value="" disabled selected>Selecione uma categoria</option>
+                <option value="Alimentação">Alimentação</option>
+                <option value="Transporte">Transporte</option>
+                <option value="Moradia">Moradia</option>
+                <option value="Outros">Outros</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button onclick="adicionarDespesa()">Adicionar Despesa</button>
+        </div>
+        <div class="expense-list">
+            <h2>Despesas Cadastradas</h2>
+            <ul id="listaDespesas"></ul>
+            <p>Total Gasto no Mês: <span id="totalGasto">R$ 0.00</span></p>
+        </div>
+    </div>
+
+    <script>
+        let despesas = [];
+        let totalGasto = 0;
+
+        function adicionarDespesa() {
+            let descricao = document.getElementById('descricao').value;
+            let valor = parseFloat(document.getElementById('valor').value);
+            let categoria = document.getElementById('categoria').value;
+
+            if (descricao && valor && categoria) {
+                let despesa = {
+                    descricao,
+                    valor,
+                    categoria
+                };
+
+                despesas.push(despesa);
+                totalGasto += valor;
+
+                atualizarLista();
+                limparFormulario();
+            } else {
+                alert("Por favor, preencha todos os campos.");
+            }
+        }
+
+        function atualizarLista() {
+            let listaDespesas = document.getElementById('listaDespesas');
+            listaDespesas.innerHTML = '';
+
+            despesas.forEach(function(despesa) {
+                let li = document.createElement('li');
+                li.textContent = `${despesa.descricao} - R$${despesa.valor.toFixed(2)} - ${despesa.categoria}`;
+                listaDespesas.appendChild(li);
+            });
+
+            document.getElementById('totalGasto').textContent = `R$${totalGasto.toFixed(2)}`;
+        }
+
+        function limparFormulario() {
+            document.getElementById('descricao').value = '';
+            document.getElementById('valor').value = '';
+            document.getElementById('categoria').value = '';
+        }
+    </script>
+</body>
+</html>

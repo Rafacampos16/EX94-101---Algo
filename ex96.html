@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Estoque</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .form-group button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #45a049;
+        }
+        .product-list {
+            margin-top: 20px;
+        }
+        .product-list h2 {
+            margin-bottom: 10px;
+        }
+        .product-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .product-list ul li {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Controle de Estoque</h1>
+        <div class="form-group">
+            <label for="nome">Nome do Produto:</label>
+            <input type="text" id="nome" required>
+        </div>
+        <div class="form-group">
+            <label for="preco">Preço:</label>
+            <input type="number" step="0.01" id="preco" required>
+        </div>
+        <div class="form-group">
+            <label for="quantidade">Quantidade em Estoque:</label>
+            <input type="number" id="quantidade" required>
+        </div>
+        <div class="form-group">
+            <label for="categoria">Categoria:</label>
+            <select id="categoria" required>
+                <option value="" disabled selected>Selecione uma categoria</option>
+                <option value="Eletrônicos">Eletrônicos</option>
+                <option value="Roupas">Roupas</option>
+                <option value="Alimentos">Alimentos</option>
+                <option value="Bebidas">Bebidas</option>
+                <option value="Outros">Outros</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button onclick="adicionarProduto()">Adicionar Produto</button>
+        </div>
+        <div class="product-list">
+            <h2>Produtos Cadastrados</h2>
+            <ul id="listaProdutos"></ul>
+            <p>Total de Itens em Estoque: <span id="totalItens">0</span></p>
+        </div>
+    </div>
+
+    <script>
+        // Função para adicionar um novo produto à lista de produtos
+    function adicionarProduto() {
+        // Captura dos valores dos campos de entrada do formulário
+        let nome = document.getElementById('nome').value;
+        let preco = document.getElementById('preco').value;
+        let quantidade = document.getElementById('quantidade').value;
+        let categoria = document.getElementById('categoria').value;
+
+        // Verifica se todos os campos estão preenchidos
+        if (nome && preco && quantidade && categoria) {
+            // Cria um objeto representando o produto
+            let produto = {
+                nome, // Nome do produto
+                preco: parseFloat(preco).toFixed(2), // Preço do produto convertido para duas casas decimais
+                quantidade: parseInt(quantidade), // Quantidade do produto convertida para inteiro
+                categoria // Categoria do produto
+            };
+
+            // Adiciona o produto ao array de produtos
+            produtos.push(produto);
+
+            // Atualiza a lista de produtos exibida na página
+            atualizarLista();
+
+            // Limpa os campos do formulário após a adição do produto
+            limparFormulario();
+        } else {
+            // Se algum campo estiver vazio, exibe um alerta
+            alert("Por favor, preencha todos os campos.");
+        }
+    }
+
+    // Função para atualizar a lista de produtos exibida na página
+    function atualizarLista() {
+        // Seleciona o elemento <ul> onde a lista de produtos será exibida
+        let listaProdutos = document.getElementById('listaProdutos');
+
+        // Limpa o conteúdo atual da lista de produtos
+        listaProdutos.innerHTML = '';
+
+        // Inicializa a variável para armazenar o total de itens em estoque
+        let totalItens = 0;
+
+        // Itera sobre cada produto no array de produtos
+        produtos.forEach(function(produto) {
+            // Cria um novo elemento de lista <li> para cada produto
+            let li = document.createElement('li');
+
+            // Define o conteúdo do elemento <li> com os detalhes do produto
+            li.textContent = `${produto.nome} - R$${produto.preco} - ${produto.quantidade} em estoque - Categoria: ${produto.categoria}`;
+
+            // Adiciona o elemento <li> à lista de produtos na página
+            listaProdutos.appendChild(li);
+
+            // Atualiza o total de itens em estoque
+            totalItens += produto.quantidade;
+        });
+
+        // Atualiza o total de itens em estoque exibido na página
+        document.getElementById('totalItens').textContent = totalItens;
+    }
+
+    // Função para limpar os campos do formulário após a adição de um produto
+    function limparFormulario() {
+        document.getElementById('nome').value = '';
+        document.getElementById('preco').value = '';
+        document.getElementById('quantidade').value = '';
+        document.getElementById('categoria').value = '';
+    }
+
+    </script>
+</body>
+</html>

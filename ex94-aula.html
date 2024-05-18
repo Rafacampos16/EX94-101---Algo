@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ex 94</title>
+</head>
+
+<body>
+    <center style="width: 80;">
+        <h1>EX 94</h1>
+        <p>Desenvolva uma aplicação capaz de receber e armazenar os dados de diversos alunos
+            para consulta posterior. Os dados de cada aluno incluem: nome, nota 01, nota 02 e média
+            aritmética.
+            Após cada inserção de dados, a aplicação deverá exibir todos os registros cadastrados até
+            o momento, além de apresentar a quantidade de alunos aprovados e reprovados. Para
+            ser considerado aprovado, o aluno deve obter uma média igual ou superior a 7,00.
+        </p>
+
+        <label for="nome">Digite seu nome</label>
+        <br>
+        <input type="text" id="nome" placeholder="Digite seu nome">
+        <br><br>
+
+        <label for="nota1">Digite a primeira nota</label>
+        <br>
+        <input type="number" id="nota1" placeholder="Digite a nota">
+        <br><br>
+
+        <label for="nota2">Digite a segunda nota</label>
+        <br>
+        <input type="number" id="nota2" placeholder="Digite a nota">
+        <br><br>
+
+        <button id="btn">Calcular</button>
+        <br>
+        <div id="resultado">***</div>
+
+        <script>
+            let btn = document.getElementById('btn')
+            let div = document.getElementById('resultado')
+
+            let arrAluno = []
+
+            function cadastrar() {
+                let nomeInput = document.getElementById('nome').value
+                let nota1Input = parseFloat(document.getElementById('nota1').value)
+                let nota2Input = parseFloat(document.getElementById('nota2').value)
+                let mediaInput = (nota1Input + nota2Input) / 2
+
+                let aluno = {
+                    nome: nomeInput,
+                    nota1: nota1Input,
+                    nota2: nota2Input,
+                    media: mediaInput
+                }
+
+                arrAluno.push(aluno)
+                console.log(arrAluno);
+
+                imprimir()
+            }
+
+            function imprimir() {
+                div.innerHTML = ''
+
+                for (let i = 0; i < arrAluno.length; i++) {
+                    div.innerHTML += `
+                <p>
+                   NOME: ${arrAluno[i].nome} 
+                   NOTA01: ${arrAluno[i].nota1} 
+               
+                   NOTA02: ${arrAluno[i].nota2}
+               
+                   Média: ${arrAluno[i].media}
+                    </p>`
+                }
+                ApRep()
+            }
+
+            function ApRep() {
+                let ap = 0
+                let rep = 0
+                for (let i = 0; i < arrAluno.length; i++) {
+                    if (arrAluno[i].media >= 7) {
+                        ap++
+                    } else {
+                        rep++
+                    }
+                }
+
+                div.innerHTML += `
+            <p> 
+                Aprovados: ${ap}
+                Reprovados: ${rep}
+                </p>
+            `
+
+            }
+
+            btn.addEventListener('click', cadastrar)
+        </script>
+    </center>
+</body>
+
+</html><q></q>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise de Número</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        p {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Análise de Número</h1>
+    <p>Crie uma aplicação que receba um número qualquer.
+        <br>Se o número for positivo, imprimir o número digitado e sua raiz quadrada.
+        <br>Se o número for negativo, imprimir o número digitado e seu valor elevado ao quadrado.</p>
+    <label for="numero">Digite um número:</label>
+    <input type="number" id="numero">
+    <br>
+    <button onclick="analisarNumero()">Analisar Número</button>
+    <br>
+    <p id="resultado"></p>
+
+    <script>
+        function analisarNumero() {
+            let numero = parseFloat(document.getElementById('numero').value);
+
+            if (isNaN(numero)) {
+                alert("Por favor, insira um número válido.");
+                return;
+            }
+
+            let resultado = '';
+
+            if (numero >= 0) {
+                resultado = `Número digitado: ${numero}<br>`;
+                resultado += `Raiz quadrada: ${Math.sqrt(numero).toFixed(2)}`;
+            } else {
+                resultado = `Número digitado: ${numero}<br>`;
+                resultado += `Valor elevado ao quadrado: ${Math.pow(numero, 2)}`;
+            }
+
+            document.getElementById('resultado').innerHTML = resultado;
+        }
+    </script>
+</body>
+</html>

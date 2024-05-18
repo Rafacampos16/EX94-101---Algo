@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Tarefas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .form-group button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gerenciador de Tarefas</h1>
+        <div class="form-group">
+            <label for="descricao">Descrição da Tarefa:</label>
+            <input type="text" id="descricao" required>
+        </div>
+        <div class="form-group">
+            <label for="responsavel">Responsável:</label>
+            <input type="text" id="responsavel" required>
+        </div>
+        <div class="form-group">
+            <label for="prazo">Prazo de Entrega:</label>
+            <input type="date" id="prazo" required>
+        </div>
+        <div class="form-group">
+            <label for="status">Status:</label>
+            <select id="status" required>
+                <option value="pendente">Pendente</option>
+                <option value="em_andamento">Em Andamento</option>
+                <option value="concluida">Concluída</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button onclick="adicionarTarefa()">Adicionar Tarefa</button>
+        </div>
+        <table id="tabelaTarefas">
+            <thead>
+                <tr>
+                    <th>Descrição</th>
+                    <th>Responsável</th>
+                    <th>Prazo</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="tarefasBody">
+            </tbody>
+        </table>
+        <p>Total de Tarefas Pendentes: <span id="totalPendentes">0</span></p>
+    </div>
+
+    <script>
+        let tarefas = [];
+
+        function adicionarTarefa() {
+            let descricao = document.getElementById('descricao').value;
+            let responsavel = document.getElementById('responsavel').value;
+            let prazo = document.getElementById('prazo').value;
+            let status = document.getElementById('status').value;
+
+            if (descricao && responsavel && prazo && status) {
+                let tarefa = {
+                    descricao,
+                    responsavel,
+                    prazo,
+                    status
+                };
+
+                tarefas.push(tarefa);
+                atualizarTabela();
+                atualizarContadorPendentes();
+                limparFormulario();
+            } else {
+                alert("Por favor, preencha todos os campos.");
+            }
+        }
+
+        function atualizarTabela() {
+            let tabela = document.getElementById('tarefasBody');
+            tabela.innerHTML = '';
+
+            tarefas.forEach(function(tarefa) {
+                let row = tabela.insertRow();
+                row.insertCell(0).textContent = tarefa.descricao;
+                row.insertCell(1).textContent = tarefa.responsavel;
+                row.insertCell(2).textContent = tarefa.prazo;
+                row.insertCell(3).textContent = tarefa.status;
+            });
+        }
+
+        function atualizarContadorPendentes() {
+            let totalPendentes = tarefas.filter(tarefa => tarefa.status === 'pendente').length;
+            document.getElementById('totalPendentes').textContent = totalPendentes;
+        }
+
+        function limparFormulario() {
+            document.getElementById('descricao').value = '';
+            document.getElementById('responsavel').value = '';
+            document.getElementById('prazo').value = '';
+            document.getElementById('status').value = 'pendente';
+        }
+    </script>
+</body>
+</html>

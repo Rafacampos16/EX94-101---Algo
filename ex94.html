@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registro de Alunos</title>
+<style>
+/* styles.css */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 80%;
+  margin: 50px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input-group input {
+  padding: 8px;
+  width: 50%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.resultado {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+
+p{
+    text-align: justify;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Exercício 94</h2>
+  <p>Desenvolva uma aplicação capaz de receber e armazenar os dados de diversos alunos
+    para consulta posterior. Os dados de cada aluno incluem: nome, nota 01, nota 02 e média
+    aritmética.
+    Após cada inserção de dados, a aplicação deverá exibir todos os registros cadastrados até
+    o momento, além de apresentar a quantidade de alunos aprovados e reprovados. Para
+    ser considerado aprovado, o aluno deve obter uma média igual ou superior a 7,00.</p>
+  <div class="input-group">
+    <label for="nome">Nome:</label>
+    <input type="text" id="nome" required>
+  </div>
+  <div class="input-group">
+    <label for="nota1">Nota 01:</label>
+    <input type="number" id="nota1" step="0.01" required>
+  </div>
+  <div class="input-group">
+    <label for="nota2">Nota 02:</label>
+    <input type="number" id="nota2" step="0.01" required>
+  </div>
+  <button onclick="registrarAluno()">Registrar Aluno</button>
+  <div class="resultado" id="resultado"></div>
+</div>
+
+<script>
+let alunos = [];
+
+function registrarAluno() {
+  const nome = document.getElementById('nome').value;
+  const nota1 = parseFloat(document.getElementById('nota1').value);
+  const nota2 = parseFloat(document.getElementById('nota2').value);
+
+  if (!nome || nota1 < 0 || nota2 < 0) {
+    alert("Por favor, insira dados válidos.");
+    return;
+  }
+
+  const media = (nota1 + nota2) / 2;
+  const aluno = { nome, nota1, nota2, media };
+  alunos.push(aluno);
+
+  exibirAlunos();
+}
+
+function exibirAlunos() {
+  let html = '';
+  let aprovados = 0;
+  let reprovados = 0;
+
+  alunos.forEach(aluno => {
+    html += `Nome: ${aluno.nome} | Nota 01: ${aluno.nota1} | Nota 02: ${aluno.nota2} | Média: ${aluno.media.toFixed(2)}<br>`;
+    if (aluno.media >= 7) {
+      aprovados++;
+    } else {
+      reprovados++;
+    }
+  });
+
+  html += `<br>Total de alunos: ${alunos.length}<br>`;
+  html += `Aprovados: ${aprovados}<br>`;
+  html += `Reprovados: ${reprovados}`;
+
+  document.getElementById('resultado').innerHTML = html;
+}
+</script>
+
+</body>
+</html>

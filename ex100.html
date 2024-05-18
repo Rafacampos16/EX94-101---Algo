@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soma dos Valores Pares</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        p {
+            margin-top: 10px;
+            text-align: justify;
+        }
+    </style>
+</head>
+<body>
+    <h1>Soma dos Valores Pares</h1>
+    <p>Crie uma aplicação que receba dois números e imprima a soma dos valores pares
+        compreendidos entre estes números.
+        </p>
+    <label for="numero1">Primeiro número:</label>
+    <input type="number" id="numero1">
+    <br>
+    <label for="numero2">Segundo número:</label>
+    <input type="number" id="numero2">
+    <br>
+    <button onclick="calcularSomaPares()">Calcular Soma dos Pares</button>
+    <br>
+    <p id="resultado"></p>
+
+    <script>
+        function calcularSomaPares() {
+            let numero1 = parseInt(document.getElementById('numero1').value);
+            let numero2 = parseInt(document.getElementById('numero2').value);
+
+            if (isNaN(numero1) || isNaN(numero2)) {
+                alert("Por favor, insira números válidos.");
+                return;
+            }
+
+            let menorNumero = Math.min(numero1, numero2);
+            let maiorNumero = Math.max(numero1, numero2);
+            let somaPares = 0;
+
+            for (let i = menorNumero; i <= maiorNumero; i++) {
+                if (i % 2 === 0) { // Verifica se o número é par
+                    somaPares += i;
+                }
+            }
+
+            document.getElementById('resultado').textContent = `A soma dos valores pares entre ${menorNumero} e ${maiorNumero} é ${somaPares}.`;
+        }
+    </script>
+</body>
+</html>

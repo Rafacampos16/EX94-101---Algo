@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acompanhamento da Equipe</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .form-group button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #45a049;
+        }
+        .player-list {
+            margin-top: 20px;
+        }
+        .player-list h2 {
+            margin-bottom: 10px;
+        }
+        .player-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .player-list ul li {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Acompanhamento da Equipe</h1>
+        <div class="form-group">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" required>
+        </div>
+        <div class="form-group">
+            <label for="posicao">Posição:</label>
+            <input type="text" id="posicao" required>
+        </div>
+        <div class="form-group">
+            <label for="numero_camiseta">Número da Camiseta:</label>
+            <input type="number" id="numero_camiseta" required>
+        </div>
+        <div class="form-group">
+            <label for="idade">Idade:</label>
+            <input type="number" id="idade" required>
+        </div>
+        <div class="form-group">
+            <button onclick="adicionarJogador()">Adicionar Jogador</button>
+        </div>
+        <div class="player-list">
+            <h2>Jogadores Cadastrados</h2>
+            <ul id="listaJogadores"></ul>
+            <p>Média de Idade: <span id="mediaIdade">0</span></p>
+            <p>Jogadores com menos de 20 anos: <span id="menosDeVinte">0</span></p>
+            <p>Jogadores com 20 anos ou mais: <span id="vinteOuMais">0</span></p>
+        </div>
+    </div>
+
+    <script>
+        let jogadores = [];
+
+        function adicionarJogador() {
+            let nome = document.getElementById('nome').value;
+            let posicao = document.getElementById('posicao').value;
+            let numero_camiseta = parseInt(document.getElementById('numero_camiseta').value);
+            let idade = parseInt(document.getElementById('idade').value);
+
+            if (nome && posicao && !isNaN(numero_camiseta) && !isNaN(idade)) {
+                let jogador = {
+                    nome,
+                    posicao,
+                    numero_camiseta,
+                    idade
+                };
+
+                jogadores.push(jogador);
+                atualizarLista();
+                calcularEstatisticas();
+                limparFormulario();
+            } else {
+                alert("Por favor, preencha todos os campos corretamente.");
+            }
+        }
+
+        function atualizarLista() {
+            let listaJogadores = document.getElementById('listaJogadores');
+            listaJogadores.innerHTML = '';
+
+            jogadores.forEach(function(jogador) {
+                let li = document.createElement('li');
+                li.textContent = `Nome: ${jogador.nome}, Posição: ${jogador.posicao}, Número da Camiseta: ${jogador.numero_camiseta}, Idade: ${jogador.idade}`;
+                listaJogadores.appendChild(li);
+            });
+        }
+
+        function calcularEstatisticas() {
+            let totalIdades = 0;
+            let menosDeVinte = 0;
+            let vinteOuMais = 0;
+
+            jogadores.forEach(function(jogador) {
+                totalIdades += jogador.idade;
+                if (jogador.idade < 20) {
+                    menosDeVinte++;
+                } else {
+                    vinteOuMais++;
+                }
+            });
+
+            // Calcula a média de idade da equipe
+            let mediaIdade = totalIdades / jogadores.length;
+
+            // Atualiza os elementos HTML com as estatísticas calculadas
+            document.getElementById('mediaIdade').textContent = mediaIdade.toFixed(1);
+            document.getElementById('menosDeVinte').textContent = menosDeVinte;
+            document.getElementById('vinteOuMais').textContent = vinteOuMais;
+        }
+
+        function limparFormulario() {
+            document.getElementById('nome').value = '';
+            document.getElementById('posicao').value = '';
+            document.getElementById('numero_camiseta').value = '';
+            document.getElementById('idade').value = '';
+        }
+    </script>
+</body>
+</html>
+
